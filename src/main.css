@@ -1,0 +1,69 @@
+:root {
+   --grid-row-height: 99px;
+   --grid-offset-row: 49.5px;
+   --grid-offset-col: 85.5px;
+
+   /* Color util */ 
+	--color-darker: hsla(0 0% 0% / 40%);
+
+   /* Light mode */
+   --color-text-light: black;
+   --color-border-light: black;
+   --color-bg-light: white;
+   --color-header-light: hsl(0 0% 0%  / 40%);
+
+   /* Dark mode */
+   --color-text-dark: white;
+   --color-border-dark: white;
+   --color-bg-dark: black;
+   --color-header-dark: hsl(0 0% 100%  / 40%);
+
+   /* Defaults */
+   --color-text: var(--color-text-light);
+	--color-bg: var(--color-bg-light);
+   --color-border: var(--color-border-light);
+   --color-header: var(--color-header-light);
+}
+
+@media (prefers-color-scheme: dark) {
+  /* These styles would override the default light mode if specified */
+  :root {
+   --color-text: var(--color-text-dark);
+	--color-bg: var(--color-bg-dark);
+   --color-border: var(--color-border-dark);
+   --color-header: var(--color-header-dark);
+  }
+}
+
+#root > div[data-theme="light"] {
+   --color-text: var(--color-text-light);
+	--color-bg: var(--color-bg-light);
+   --color-border: var(--color-border-light);
+   --color-header: var(--color-header-light);
+}
+
+#root > div[data-theme="dark"] {
+   --color-text: var(--color-text-dark);
+	--color-bg: var(--color-bg-dark);
+   --color-border: var(--color-border-dark);
+   --color-header: var(--color-header-dark);
+}
+
+html {
+   box-sizing: border-box;
+}
+
+html, body {
+   margin: 0;
+   padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6, p, th, td, label, input, button {
+   color: var(--color-text);
+}
+
+*,
+*:before,
+*:after {
+   box-sizing: inherit;
+}
