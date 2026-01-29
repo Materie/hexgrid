@@ -10,6 +10,7 @@ interface Props {
 	hex: Hex
 	pos: Point
 	active: boolean
+	selected: boolean
 }
 
 export const HexSVG = ({ hex, pos, active }: Props) => {
@@ -17,12 +18,16 @@ export const HexSVG = ({ hex, pos, active }: Props) => {
 		.map(([x, y]) => `${x + pos.x},${y + pos.y}`)
 		.join(" ")
 
+	//console.log(hex)
+
 	return (
 		<Polygon
 			points={points}
 			fill={active ? "#4da3ff" : "#cfd8dc"} //TODO: Fix colors
-			stroke="#455a64" //TODO: Fix colors
+			//stroke={selected ? "#ff4444" : "#455a64"} //TODO: Fix colors
+			stroke="#455a64"
 			strokeWidth={1}
+			//strokeWidth={selected ? 3 : 1}
 			opacity={active ? 1 : 0.4}
 		/>
 	)

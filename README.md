@@ -6,11 +6,15 @@ A hex map editor built specifically for mapping complex, multi-layer dungeons.
 - Dark mode
 - Pan + zoom
 - Basic layers
+- Simple click to add adjacent hex
+- Export to file
+- Import from file
 
 ## Planned features:
 - More advanced layer logic
-- Simple click to add adjacent hex
+- Layer select buttons
 - Edit indivdual hexes
-- Export to file
-- Import from file
-- Reset
+- Reset map button
+- Undo/redo buttons
+- Delete item (either with DELETE keyboard or with separate button)
+- Ways to make losing your position harder

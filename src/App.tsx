@@ -1,8 +1,8 @@
 import { styled } from "@linaria/react"
 import { Header } from "./Header"
-import type { CellType } from "./types/Cell"
 import { useState } from "react"
-import { Grid } from "./components/grid/Grid"
+import type { Hex } from "./types/Hex"
+import { SVGMap } from "./components/grid/SVGMap"
 
 const Wrapper = styled.div`
 	height: 100vh;
@@ -24,26 +24,13 @@ const Main = styled.main`
 	align-items: stretch;
 `
 
-const ViewArea = styled.div`
-	display: flex;
-	align-items: center;
-	justify-content: center;
-`
+const initialHexes = new Map<string, Hex>()
 
-const Div = styled.div``
-
-const Text = styled.p``
-
-const testRows: CellType[][] = [
-	[{}, {}, {}, {}],
-	[{}, {}, {}, {}],
-	[{}, {}, {}, {}],
-	[{}, {}, {}, {}],
-]
+initialHexes.set("0,0,0", { x: 0, y: 0, layer: 0 })
 
 export function App() {
 	const [theme, setTheme] = useState("light")
-	const [grid, setGrid] = useState([[{}]])
+	const [hexMap, setHexMap] = useState<Map<string, Hex>>(initialHexes)
 
 	return (
 		<Wrapper data-theme={theme}>
@@ -51,9 +38,11 @@ export function App() {
 				toggleTheme={() =>
 					setTheme((theme) => (theme === "light" ? "dark" : "light"))
 				}
+				hexMap={hexMap}
+				setHexMap={setHexMap}
 			/>
 			<Main>
-				<Grid />
+				<SVGMap hexMap={hexMap} setHexMap={setHexMap} activeLayer={0} />
 			</Main>
 		</Wrapper>
 	)
