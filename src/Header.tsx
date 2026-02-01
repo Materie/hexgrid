@@ -4,8 +4,9 @@ import { Modal } from "./Modal"
 import { ModeSwitchButton } from "./ModeSwitchButton"
 import { serializeHexes } from "./io/serializeHexes"
 import type { Hex } from "./types/Hex"
-import { saveJsonToFile } from "./io/saveJsonToFile"
 import { openJsonFile } from "./io/openJsonFile"
+import { saveAsJsonFile, saveJsonFile } from "./io/saveJsonFile"
+import { DEFAULT_FILE_NAME } from "./constants"
 
 const Wrapper = styled.header`
 	position: sticky;
@@ -63,17 +64,24 @@ export const Header = ({ toggleTheme, hexMap, setHexMap }: Props) => {
 				<Title>HexGrid</Title>
 				<Right>
 					<Text onClick={() => setResetModalOpen(true)}>Tilbakestill</Text>
+					<Button onClick={() => saveJsonFile(serializeHexes(hexMap))}>
+						Lagre
+					</Button>
 					<Button
 						onClick={
-							async () => await saveJsonToFile(serializeHexes(hexMap))
+							async () =>
+								await saveAsJsonFile(
+									serializeHexes(hexMap),
+									DEFAULT_FILE_NAME,
+								)
 							/**
 							 * Kan sende inn filnavnet brukeren importerte her. Hvis brukeren ikke har importert, men har endret filnavnet i headeren, kan vi også konvertere det til en trygg streng og slenge på .json på slutten. Ellers brukes default, som er 'Hex-kart.json'.
 							 */
 						}
 					>
-						Eksporter
+						Lagre som
 					</Button>
-					<Button onClick={handleImport}>Importer</Button>
+					<Button onClick={handleImport}>Åpne</Button>
 					<ModeSwitchButton mode="dark" toggleTheme={toggleTheme} />
 				</Right>
 			</Wrapper>

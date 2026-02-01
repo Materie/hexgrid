@@ -1,8 +1,10 @@
 import { styled } from "@linaria/react"
 import { Header } from "./Header"
-import { useState } from "react"
+import { useReducer, useState, type SetStateAction } from "react"
 import type { Hex } from "./types/Hex"
 import { SVGMap } from "./components/grid/SVGMap"
+import { useAutosave } from "./hooks/useAutosave"
+import { serializeHexes } from "./io/serializeHexes"
 
 const Wrapper = styled.div`
 	height: 100vh;
@@ -31,6 +33,16 @@ initialHexes.set("0,0,0", { x: 0, y: 0, layer: 0 })
 export function App() {
 	const [theme, setTheme] = useState("light")
 	const [hexMap, setHexMap] = useState<Map<string, Hex>>(initialHexes)
+	const [mapChangeIndex, bumpMapChangeIndex] = useReducer((v) => v + 1, 0)
+
+	useAutosave(mapChangeIndex, () => serializeHexes(hexMap), 1500)
+
+	const setHexMapAndIncrementIndex = (
+		arg: SetStateAction<Map<string, Hex>>,
+	) => {
+		setHexMap(arg)
+		bumpMapChangeIndex()
+	}
 
 	return (
 		<Wrapper data-theme={theme}>
@@ -42,7 +54,11 @@ export function App() {
 				setHexMap={setHexMap}
 			/>
 			<Main>
-				<SVGMap hexMap={hexMap} setHexMap={setHexMap} activeLayer={0} />
+				<SVGMap
+					hexMap={hexMap}
+					setHexMap={setHexMapAndIncrementIndex}
+					activeLayer={0}
+				/>
 			</Main>
 		</Wrapper>
 	)
