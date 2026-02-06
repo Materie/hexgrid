@@ -1,5 +1,5 @@
 import { useEffect } from "react"
-import { hasSaveTarget, saveJsonFile } from "../io/saveJsonFile"
+import { hasSaveTarget, saveJsonFile } from "../saveJsonFile"
 
 /**
  * Autosaves after changes, after a file has been saved once.

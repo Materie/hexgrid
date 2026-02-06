@@ -3,7 +3,7 @@ import { Header } from "./Header"
 import { useReducer, useState, type SetStateAction } from "react"
 import type { Hex } from "./types/Hex"
 import { SVGMap } from "./components/grid/SVGMap"
-import { useAutosave } from "./hooks/useAutosave"
+import { useAutosave } from "./io/hooks/useAutosave"
 import { serializeHexes } from "./io/serializeHexes"
 
 const Wrapper = styled.div`

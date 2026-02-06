@@ -18,6 +18,8 @@ import { getAvailableHexNeighbors } from "../../utils/getAvailableHexNeighbors"
 import { getHexPoints } from "../../utils/gertHexPoints"
 import { isNeighbor } from "../../utils/hexIsNeighbor"
 import { SelectedHexOutline } from "./SelectedHexOutline"
+import { useEditorShortcuts } from "../../io/hooks/useEditorShortcuts"
+import { serializeHexes } from "../../io/serializeHexes"
 
 const SVG = styled.svg<{ $panning: boolean }>`
 	width: 100%;
@@ -73,6 +75,32 @@ export const SVGMap = ({ hexMap, setHexMap, activeLayer }: Props) => {
 		endPan,
 	} = usePan(setCamera)
 	const onWheel = useZoom(setCamera)
+
+	useEditorShortcuts({
+		getSaveData: () => serializeHexes(hexMap),
+
+		onImport: (data) => {
+			const map = new Map<string, Hex>()
+			data.hexes.forEach((h: Hex) => map.set(`${h.x},${h.y},${h.layer}`, h))
+			setHexMap(map)
+		},
+
+		onClearSelection: () => setSelectedHex(null),
+
+		onDeleteSelection: () => {
+			if (!selectedHex) return
+
+			setHexMap((prev) => {
+				const next = new Map(prev)
+				next.delete(
+					`${selectedHex.x},${selectedHex.y},${selectedHex.layer}`,
+				)
+				return next
+			})
+
+			setSelectedHex(null)
+		},
+	})
 
 	const onClick = (e: React.PointerEvent<SVGSVGElement>) => {
 		if (panning) return
